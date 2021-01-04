@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_04_180926) do
+ActiveRecord::Schema.define(version: 2021_01_04_195940) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 2021_01_04_180926) do
     t.boolean "landable"
     t.boolean "visited"
     t.float "gravity_level"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "traveller_trips", force: :cascade do |t|
+    t.integer "trip_id"
+    t.integer "traveller_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
