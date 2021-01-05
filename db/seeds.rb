@@ -30,9 +30,40 @@ Traveller.destroy_all
 #Time.new.to_s.slice(0,10)
 
 
+
+
+
+
+
+
+
+
+
 30.times do
     Traveller.create(name: Faker::Name.name, age: Faker::Number.within(range: 20..104))  
 end
+
+
+
+
+500.times do
+    start_date = Faker::Date.between(from: 3.years.ago, to: 2.years.from_now)
+    end_date = Faker::Date.between(from: start_date, to: start_date + 2.years)
+    bool = [true, false]
+    status = nil
+    if start_date > Time.now
+        status = "upcoming"
+    elsif start_date <= Time.now && end_date >= Time.now
+        status = "ongoing"
+    else 
+        status = "completed"
+    end
+    Trip.create(start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
+end
+
+
+
+
 
 50.times do
 

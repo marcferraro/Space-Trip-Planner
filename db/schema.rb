@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_001529) do
+ActiveRecord::Schema.define(version: 2021_01_05_015620) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 2021_01_05_001529) do
 
   create_table "trips", force: :cascade do |t|
     t.string "name"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.string "start_date"
+    t.string "end_date"
     t.string "vehicle"
     t.string "status"
     t.text "log"
