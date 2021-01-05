@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_04_195940) do
+ActiveRecord::Schema.define(version: 2021_01_05_001529) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.float "temp"
-    t.string "type"
+    t.string "category"
     t.boolean "rings"
     t.boolean "fauna"
     t.boolean "flora"
