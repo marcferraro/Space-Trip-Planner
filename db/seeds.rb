@@ -50,4 +50,18 @@ trip_ids = Trip.all.map {|trip| trip.id}
     TravellerTrip.create(traveller_id: traveller_id, trip_id: trip_id) unless existing
 end
 
+
+
+trip_ids = Trip.all.map {|trip| trip.id}
+location_ids = Location.all.map {|location| location.id}
+
+800.times do
+    trip_id = trip_ids.sample
+    location_id = location_ids.sample
+
+    exists = TripLocation.find_by(trip_id: trip_id, location_id: location_id)
+
+    TripLocation.create(trip_id: trip_id, location_id: location_id) unless exists
+end
+
 # binding.pry
