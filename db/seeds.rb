@@ -38,6 +38,7 @@ end
     Location.create(name: name.sample, temp: Faker::Number.within(range: 1..10), category: category.sample, rings: bool.sample, fauna: bool.sample, flora: bool.sample, daytime: bool.sample, landable: bool.sample, visited: bool.sample, gravity_level: Faker::Number.decimal(l_digits: 2))
 end
 
+#create traveller_trips
 traveller_ids = Traveller.all.map {|traveller| traveller.id}
 trip_ids = Trip.all.map {|trip| trip.id}
 
@@ -51,7 +52,7 @@ trip_ids = Trip.all.map {|trip| trip.id}
 end
 
 
-
+#create trip_locations
 trip_ids = Trip.all.map {|trip| trip.id}
 location_ids = Location.all.map {|location| location.id}
 
@@ -63,5 +64,3 @@ location_ids = Location.all.map {|location| location.id}
 
     TripLocation.create(trip_id: trip_id, location_id: location_id) unless exists
 end
-
-# binding.pry
