@@ -1,7 +1,6 @@
 class CLI
 
     def run
-        
         puts "Welcome to Space Trip Planner"
         puts "<=>" * 10
         login
@@ -52,9 +51,8 @@ class CLI
         puts "Create a traveller name."
         name = gets.chomp.to_s
         clear_screen
-        puts "What is your age?"
-        age = gets.chomp
-
+        age = get_age
+    
         @current_traveller = Traveller.create(name: name, age: age)
         clear_screen
         puts "#{@current_traveller.id} is your ID. You will need this to login."
@@ -76,10 +74,8 @@ class CLI
         main_menu
     end
 
-
-
     def view_trips
-        # binding.pry
+        @current_traveller.reload
         @current_traveller.display_trips
 
         prompt = TTY::Prompt.new
@@ -97,16 +93,16 @@ class CLI
         end
     end
 
-
-
     def create_new_trip
+        location_list = []
+
         prompt = TTY::Prompt.new
         selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Go_Back ))
         case selection
         when "Browse_All_Locations"
             
         when "Find_Random_Locations"
-            
+            find_random_location
         when "Tailored_Locations"
 
         when "Browse_By_Rating"
@@ -116,33 +112,37 @@ class CLI
         end
     end
 
-        
+    def find_random_location
+        random_locations = []
+        random_locations << 3.times {Location.all.sample} 
+        binding.pry
+    end
 
     def cancel_trip
         puts "Enter the ID of the trip you would like to cancel."
         trip_id = gets.chomp
         trip = Trip.find_by(id: trip_id)
         trip.destroy
-        @current_traveller.delete
-        # @current_traveller.delete_trip
         puts "Your trip has been deleted."
-        binding.pry
-        sleep 3
+        sleep 2
         clear_screen
         view_trips
     end
 
 
 
-    # def get_age
-    #     puts "What is your age?"
-    #     age = gets.chomp
-    #     #binding.pry
-    #     age.class == Integer ? ("true") : ("Please enter an integer.")
-    #     puts "hello"
-    # end
+    def get_age
+        puts "What is your age?"
+        age = gets.chomp
+
+        is_integer(age) ? age.to_i : (puts "Please enter an integer."; get_age)
+    end
 
    
+    def is_integer(string)
+        true if Integer(string) rescue false
+    end
+
 
     def clear_screen
         system "clear"
