@@ -5,7 +5,6 @@ class Trip < ActiveRecord::Base
     has_many :locations, through: :trip_locations
 
 
-
-
+  
     
 end

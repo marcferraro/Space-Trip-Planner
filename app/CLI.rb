@@ -34,13 +34,15 @@ class CLI
         puts "What would you like to do?"
             
         prompt = TTY::Prompt.new
-        selection = prompt.select("Main Menu", %w(View_Trips New_Trip Write_Log Quit))
+        selection = prompt.select("Main Menu", %w(View_Trips Create_New_Trip Write_Log Quit))
 
         case selection
         when "View_Trips"
             view_trips
-        when "Existing_Account"
-            existing_Account
+        when "Create_New_Trip"
+            create_new_trip
+        when "Write_Log"
+
         end
 
     end
@@ -74,7 +76,10 @@ class CLI
         main_menu
     end
 
+
+
     def view_trips
+        # binding.pry
         @current_traveller.display_trips
 
         prompt = TTY::Prompt.new
@@ -90,26 +95,42 @@ class CLI
         when "Cancel_Trip"
             cancel_trip
         end
-
-        # no_spaces = array.map do |name|
-        #     name.delete(" ")
-        # end
-
-        # prompt = TTY::Prompt.new
-        # selection = prompt.select("Select a trip for additional details.", %w())
     end
 
-    # def cancel_trip
-    #     puts "Enter the ID of the trip you would like to cancel."
-    #     trip_id = gets.chomp
-    #     trip = Trip.find_by(id: trip_id)
-    #     trip.delete
-    #     @current_traveller.delete_trip
-    #     puts "Your trip has been deleted."
-    #     sleep 3
-    #     clear_screen
-    #     view_trips
-    # end
+
+
+    def create_new_trip
+        prompt = TTY::Prompt.new
+        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Go_Back ))
+        case selection
+        when "Browse_All_Locations"
+            
+        when "Find_Random_Locations"
+            
+        when "Tailored_Locations"
+
+        when "Browse_By_Rating"
+
+        when "Go_Back"
+            main_menu
+        end
+    end
+
+        
+
+    def cancel_trip
+        puts "Enter the ID of the trip you would like to cancel."
+        trip_id = gets.chomp
+        trip = Trip.find_by(id: trip_id)
+        trip.destroy
+        @current_traveller.delete
+        # @current_traveller.delete_trip
+        puts "Your trip has been deleted."
+        binding.pry
+        sleep 3
+        clear_screen
+        view_trips
+    end
 
 
 
@@ -120,6 +141,8 @@ class CLI
     #     age.class == Integer ? ("true") : ("Please enter an integer.")
     #     puts "hello"
     # end
+
+   
 
     def clear_screen
         system "clear"
