@@ -2,6 +2,7 @@ class Traveller < ActiveRecord::Base
     has_many :traveller_trips
     has_many :trips, through: :traveller_trips
 
+    @@pizza = "pizza"
     # def create_trip(date, vehicle, aegag)
     #     # v = when would you like to travel? 
     #     # v = where would you like to go?
@@ -24,20 +25,24 @@ class Traveller < ActiveRecord::Base
     #     puts traveller.id
     #     puts write down your id, youll need it to login
     # end
-
-    def view_trips
+    def display_trips
         self.trips.each do |trip| 
             puts "\n#{trip.id} #{trip.name}"
         end
-        prompt = TTY::Prompt.new
-        selection = prompt.select("What would you like to do?", %w(View_Trip_Details))
-
-        # no_spaces = array.map do |name|
-        #     name.delete(" ")
-        # end
-
-        # prompt = TTY::Prompt.new
-        # selection = prompt.select("Select a trip for additional details.", %w())
-        # binding.pry
     end
+
+    def delete_trip
+        
+        Trip.all.find_by(id: trip_id).delete
+    end
+
+    def trip_complete
+        trip_id = gets.chomp
+        Trip.all.find_by(id: trip_id).status = "Complete"
+    end
+
+    def self.current_pizza
+        @@pizza
+    end
+
 end

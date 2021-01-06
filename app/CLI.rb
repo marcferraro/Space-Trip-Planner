@@ -1,7 +1,7 @@
 class CLI
 
     def run
-        clear_screen
+        
         puts "Welcome to Space Trip Planner"
         puts "<=>" * 10
         login
@@ -23,7 +23,7 @@ class CLI
 
     def main_menu
         clear_screen
-
+        
         upcoming_trips = @current_traveller.trips.count
         puts "Welcome #{@current_traveller.name} to Space Trip Planner."
 
@@ -32,13 +32,13 @@ class CLI
         end
 
         puts "What would you like to do?"
-
+            
         prompt = TTY::Prompt.new
         selection = prompt.select("Main Menu", %w(View_Trips New_Trip Write_Log Quit))
 
         case selection
         when "View_Trips"
-            @current_traveller.view_trips
+            view_trips
         when "Existing_Account"
             existing_Account
         end
@@ -64,9 +64,7 @@ class CLI
     end
 
     def existing_account
-        # clear_screen
-        # puts "Enter Traveller Name"
-        # name = gets.chomp
+        # make sure to not crash if ID is not present
         clear_screen
         puts "Enter Traveller ID"
         id = gets.chomp
@@ -75,6 +73,44 @@ class CLI
         clear_screen
         main_menu
     end
+
+    def view_trips
+        @current_traveller.display_trips
+
+        prompt = TTY::Prompt.new
+        selection = prompt.select("\nWhat would you like to do?", %w(View_Trip_Details Edit_Trip Cancel_Trip Mark_Trip_Complete))
+
+        case selection
+        when "View_Trip_Details"
+            
+        when "Edit_Trip"
+
+        when "Mark_Trip_Complete"
+
+        when "Cancel_Trip"
+            cancel_trip
+        end
+
+        # no_spaces = array.map do |name|
+        #     name.delete(" ")
+        # end
+
+        # prompt = TTY::Prompt.new
+        # selection = prompt.select("Select a trip for additional details.", %w())
+    end
+
+    # def cancel_trip
+    #     puts "Enter the ID of the trip you would like to cancel."
+    #     trip_id = gets.chomp
+    #     trip = Trip.find_by(id: trip_id)
+    #     trip.delete
+    #     @current_traveller.delete_trip
+    #     puts "Your trip has been deleted."
+    #     sleep 3
+    #     clear_screen
+    #     view_trips
+    # end
+
 
 
     # def get_age
