@@ -17,9 +17,8 @@ class CLI
         when "Create_Traveller_Account"
             create_new_account
         when "Existing_Account"
-            existing_Account
+            existing_account
         end
-
     end
 
     def main_menu
@@ -36,6 +35,13 @@ class CLI
 
         prompt = TTY::Prompt.new
         selection = prompt.select("Main Menu", %w(View_Trips New_Trip Write_Log Quit))
+
+        case selection
+        when "View_Trips"
+            @current_traveller.view_trips
+        when "Existing_Account"
+            existing_Account
+        end
 
     end
 
@@ -57,7 +63,7 @@ class CLI
         clear_screen
     end
 
-    def existing_Account
+    def existing_account
         # clear_screen
         # puts "Enter Traveller Name"
         # name = gets.chomp
@@ -65,10 +71,11 @@ class CLI
         puts "Enter Traveller ID"
         id = gets.chomp
 
-        @current_traveller = Traveller.find_by(id)
+        @current_traveller = Traveller.find_by(id: id)
         clear_screen
         main_menu
     end
+
 
     # def get_age
     #     puts "What is your age?"

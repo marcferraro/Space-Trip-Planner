@@ -25,5 +25,19 @@ class Traveller < ActiveRecord::Base
     #     puts write down your id, youll need it to login
     # end
 
-    
+    def view_trips
+        self.trips.each do |trip| 
+            puts "\n#{trip.id} #{trip.name}"
+        end
+        prompt = TTY::Prompt.new
+        selection = prompt.select("What would you like to do?", %w(View_Trip_Details))
+
+        # no_spaces = array.map do |name|
+        #     name.delete(" ")
+        # end
+
+        # prompt = TTY::Prompt.new
+        # selection = prompt.select("Select a trip for additional details.", %w())
+        # binding.pry
+    end
 end

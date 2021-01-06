@@ -26,7 +26,7 @@ end
     else 
         status = "completed"
     end
-    Trip.create(start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
+    Trip.create(name: "my_trip the first one", start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
 end
 
 
