@@ -1,6 +1,7 @@
 class CLI
 
     def run
+        clear_screen
         puts "Welcome to Space Trip Planner"
         puts "<=>" * 10
         login
@@ -39,7 +40,7 @@ class CLI
         when "View_Trips"
             view_trips
         when "Create_New_Trip"
-            create_new_trip
+            set_trip_date
         when "Write_Log"
 
         end
@@ -68,14 +69,19 @@ class CLI
         clear_screen
         puts "Enter Traveller ID"
         id = gets.chomp
-
-        @current_traveller = Traveller.find_by(id: id)
-        clear_screen
-        main_menu
+        if is_integer(id)
+            @current_traveller = Traveller.find_by(id: id)
+            clear_screen
+            main_menu
+        else
+            puts "Please enter an integer."
+            sleep 2
+            existing_account
+        end
     end
 
     def view_trips
-        @current_traveller.reload
+
         @current_traveller.display_trips
 
         prompt = TTY::Prompt.new
@@ -93,11 +99,24 @@ class CLI
         end
     end
 
-    def create_new_trip
-        location_list = []
+    def set_trip_date
+        clear_screen
+        puts "Enter a date to start your trip."
+        start_date = gets.chomp
+        puts "Enter a date to end your trip."
+        end_date = gets.chomp
 
+        trip = Trip.create(start_date: start_date, end_date: end_date)
+        test = TravellerTrip.create(traveller_id: @current_traveller.id, trip_id: trip.id)
+
+        create_trip_locations
+    end
+
+    def create_trip_locations
+        # binding.pry
         prompt = TTY::Prompt.new
-        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Go_Back ))
+        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Go_Back ))
+        
         case selection
         when "Browse_All_Locations"
             
@@ -107,15 +126,50 @@ class CLI
 
         when "Browse_By_Rating"
 
+        when "Finish_Creation"
+            finish_creation
         when "Go_Back"
             main_menu
         end
+        
+        create_trip_locations
     end
 
     def find_random_location
+
         random_locations = []
-        random_locations << 3.times {Location.all.sample} 
+        3.times {random_locations << Location.all.sample} 
+        
+        random_locations.each {|location| puts "#{location.id}. #{location.name}"}
+
+        puts "Enter the index of the location of the trip you would like to add to your itinerary."
+
+        location_id = gets.chomp
+        
+        if is_integer(location_id)
+            trip_id = @current_traveller.trips.last.id
+            TripLocation.create(trip_id: trip_id, location_id: location_id)
+            puts "Location added to itinerary."
+            sleep 2
+            create_trip_locations
+        else
+            puts "Please enter an integer."
+            sleep 2
+            find_random_location
+        end
+    end
+
+    def finish_creation
         binding.pry
+        #add a generative list later
+        puts "Please enter the vehicle you would like to take."
+        vehicle = gets.chomp
+        @current_traveller.trips.all.last.vehicle = vehicle
+        binding.pry
+
+        location_indexes.each do |location_index|
+            TripLocation.create(trip_id: trip.id, location_id: location_index)
+        end
     end
 
     def cancel_trip
@@ -123,6 +177,7 @@ class CLI
         trip_id = gets.chomp
         trip = Trip.find_by(id: trip_id)
         trip.destroy
+        @current_traveller.reload
         puts "Your trip has been deleted."
         sleep 2
         clear_screen

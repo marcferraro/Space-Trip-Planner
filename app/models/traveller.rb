@@ -13,27 +13,15 @@ class Traveller < ActiveRecord::Base
     #     #puts self.trips.last
     # end
 
-
     def display_trips
         self.trips.each do |trip| 
             puts "\n#{trip.id} #{trip.name}"
         end
     end
 
-
-    # def delete_trip
-    #     Trip.all.find_by(id: trip_id).delete
-    # end
-
-
     def trip_complete
         trip_id = gets.chomp
         Trip.all.find_by(id: trip_id).status = "Complete"
     end
-
-    
-
-
-
   
 end
