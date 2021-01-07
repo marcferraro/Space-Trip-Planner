@@ -114,6 +114,8 @@ class CLI
     end
 
     def edit_trip
+        clear_screen
+        @current_traveller.display_trips
         id = enter_id("a trip")
         clear_screen
         trip = @current_traveller.trips.find(id)
@@ -124,12 +126,20 @@ class CLI
         
         case selection
         when "Trip_Name"
-            # gets.chomp
-            # trip.update(trip_name:)
+            trip.edit_trip_name
+            edit_trip
         when "Start_Date"
+            trip.edit_start_date
+            edit_trip
         when "End_Date"
+            trip.edit_end_date
+            edit_trip
         when "Vehicle"
+            trip.edit_vehicle
+            edit_trip
         when "Itinerary"
+            trip.edit_itinerary
+            edit_trip
         when "Return"
             view_trips
         end
