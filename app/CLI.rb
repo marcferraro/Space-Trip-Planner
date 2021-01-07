@@ -36,18 +36,30 @@ class CLI
         puts "<=>" * 12
             
         prompt = TTY::Prompt.new
-        selection = prompt.select("\nMain Menu", %w(View_Trips Create_New_Trip Write_Log Quit))
+        selection = prompt.select("\nMain Menu", %w(View_Trips Create_New_Trip Write_Travellers_Log Quit))
 
         case selection
         when "View_Trips"
             view_trips
         when "Create_New_Trip"
             set_trip_date
-        when "Write_Log"
-            
+        when "Write_Travellers_Log"
+            write_travellers_log
         when "Quit"
             CLI.exit
         end
+
+        # case selection
+        # when "View_Trips"
+        #     view_trips
+        # when "Create_New_Trip"
+        #     set_trip_date
+        # when "Write_Traveller's_Log"
+        #     binding.pry
+        #     puts "hello"
+        # when "Quit"
+        #     CLI.exit
+        # end
 
     end
 
@@ -171,7 +183,7 @@ class CLI
     def create_trip_locations
         clear_screen
         prompt = TTY::Prompt.new
-        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Return ))
+        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Discard_and_Return))
         
         case selection
         when "Browse_All_Locations"
@@ -184,8 +196,11 @@ class CLI
 
         when "Finish_Creation"
             finish_creation
-        when "Return"
+        when "Discard_and_Return"
+            clear_screen
             @current_traveller.trips.all.last.destroy
+            @current_traveller.reload
+            clear_screen
             main_menu
         end
         
@@ -234,16 +249,19 @@ class CLI
 
         case selection
         when "Save"
+            @current_traveller.reload
             puts "Trip saved. Congratulations!"
             sleep 2
             main_menu
         when "Discard"
             @current_traveller.trips.all.last.destroy
+            @current_traveller.reload
             puts "Trip Discarded. Have a nice day!"
             sleep 2
             main_menu
         when "Restart"
             @current_traveller.trips.all.last.destroy
+            @current_traveller.reload
             puts "Let's give it another shot."
             sleep 2
             set_trip_date
@@ -253,13 +271,15 @@ class CLI
         # end
     end
 
+    def write_travellers_log
+        binding.pry
+    end
+
     def cancel_trip
         puts "Enter the ID of the trip you would like to cancel."
         trip_id = gets.chomp
         @current_traveller.trips.last.destroy
         @current_traveller.reload
-        # @current_traveller.trips.all.find(trip_id).destroy
-        # @current_traveller.reload
         puts "Your trip has been deleted."
         sleep 2
         clear_screen
