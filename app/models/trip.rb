@@ -17,41 +17,36 @@ class Trip < ActiveRecord::Base
       count = 1
       self.locations.each {|location| puts "#{count}. #{location.name}"; count += 1}
     end
-    
+
     def complete
         self.update(status: "Complete")
     end
 
     def edit_trip_name
-        system "clear"
         puts "Enter new trip name."
-        trip_name = gets.chomp 
-        self.update(trip_name: trip_name)
+        name = gets.chomp 
+        self.update(name: name)
     end
 
     def edit_start_date
-        system "clear"
         puts "Enter new start date."
         start_date = gets.chomp 
         self.update(start_date: start_date)
     end
 
     def edit_end_date
-        system "clear"
         puts "Enter new end date."
         end_date = gets.chomp 
         self.update(end_date: end_date)
     end
 
     def  edit_vehicle
-        system "clear"
         puts "Enter new vehicle."
         vehicle = gets.chomp 
         self.update(vehicle: vehicle)
     end
 
     def edit_itinerary
-        # system "clear"
         # puts "Enter new start date."
         # start_date = gets.chomp 
         # self.update(start_date: start_date)

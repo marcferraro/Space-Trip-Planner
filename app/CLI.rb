@@ -139,19 +139,19 @@ class CLI
         case selection
         when "Trip_Name"
             trip.edit_trip_name
-            edit_trip
+            view_trips
         when "Start_Date"
             trip.edit_start_date
-            edit_trip
+            view_trips
         when "End_Date"
             trip.edit_end_date
-            edit_trip
+            view_trips
         when "Vehicle"
             trip.edit_vehicle
-            edit_trip
+            view_trips
         when "Itinerary"
             trip.edit_itinerary
-            edit_trip
+            view_trips
         when "Return"
             view_trips
         end
@@ -272,7 +272,54 @@ class CLI
     end
 
     def write_travellers_log
-        binding.pry
+        clear_screen
+        puts "Log Entry"
+        puts "<=>" * 3
+        @current_traveller.display_trips
+
+        prompt = TTY::Prompt.new
+        selection = prompt.select("\nTraveller's Log Menu", %w(New_Entry Return))
+
+        case selection
+        when "New_Entry"
+            write_log
+        when "Return"
+            clear_screen
+            main_menu
+        end
+    end
+
+    def write_log
+        id = enter_id("a trip")
+        trip = Trip.find(id)
+        clear_screen
+        if trip.log
+            puts "Traveller's Log for trip: #{trip.name}"
+            puts "<=>" * 15
+            puts "\n" + trip.log
+            new_log = gets.chomp
+            trip.update(log: trip.log + "\n\n" + new_log)
+        else
+            puts "The Log is empty. Create a new entry below."
+            new_log = gets.chomp
+            trip.update(log: new_log)
+        end
+        clear_screen
+
+        puts "Log Entry"
+        puts "<=>" * 3
+        puts "\n" + trip.log
+
+        prompt = TTY::Prompt.new
+        selection = prompt.select("\nTraveller's Log Menu", %w(New_Entry Main_Menu))
+
+        case selection
+        when "New_Entry"
+            write_travellers_log
+        when "Main_Menu"
+            clear_screen
+            main_menu
+        end
     end
 
     def cancel_trip
@@ -309,6 +356,7 @@ class CLI
         system "clear"
         puts "Safe Travels!"
         # sleep 2
+        clear_screen
         exit!
     end
 
