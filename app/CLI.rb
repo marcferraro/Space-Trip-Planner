@@ -44,7 +44,7 @@ class CLI
         when "Create_New_Trip"
             set_trip_date
         when "Write_Log"
-
+            
         when "Quit"
             CLI.exit
         end
@@ -100,7 +100,6 @@ class CLI
             mark_trip_complete
         when "Cancel_Trip"
             cancel_trip
-
         when "Main_Menu"
             main_menu
         end
@@ -115,7 +114,6 @@ class CLI
     end
 
     def edit_trip
-        clear_screen
         id = enter_id("a trip")
         clear_screen
         trip = @current_traveller.trips.find(id)
