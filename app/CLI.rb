@@ -107,8 +107,7 @@ class CLI
     end
 
     def view_trip_details
-        puts "Please enter a trip ID."
-        id = gets.chomp
+        id = enter_id("a trip")
         clear_screen
         @current_traveller.trips.find(id).trip_details
 
