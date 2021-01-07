@@ -48,19 +48,6 @@ class CLI
         when "Quit"
             CLI.exit
         end
-
-        # case selection
-        # when "View_Trips"
-        #     view_trips
-        # when "Create_New_Trip"
-        #     set_trip_date
-        # when "Write_Traveller's_Log"
-        #     binding.pry
-        #     puts "hello"
-        # when "Quit"
-        #     CLI.exit
-        # end
-
     end
 
     def create_new_account
