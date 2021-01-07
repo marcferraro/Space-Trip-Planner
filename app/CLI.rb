@@ -256,8 +256,8 @@ class CLI
     def cancel_trip
         puts "Enter the ID of the trip you would like to cancel."
         trip_id = gets.chomp
-        # trip = Trip.find_by(id: trip_id)
-        Traveller.find(@current_traveller.id).trips.last.destroy
+        @current_traveller.trips.last.destroy
+        @current_traveller.reload
         # @current_traveller.trips.all.find(trip_id).destroy
         # @current_traveller.reload
         puts "Your trip has been deleted."
