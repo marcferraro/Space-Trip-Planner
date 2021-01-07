@@ -95,7 +95,7 @@ class CLI
         when "View_Trip_Details"
             view_trip_details
         when "Edit_Trip"
-
+            edit_trip
         when "Mark_Trip_Complete"
             mark_trip_complete
         when "Cancel_Trip"
@@ -115,9 +115,30 @@ class CLI
         enter_to_return
     end
 
+    def edit_trip
+        clear_screen
+        id = enter_id("a trip")
+        clear_screen
+        trip = @current_traveller.trips.find(id)
+        trip.trip_details
+        
+        prompt = TTY::Prompt.new
+        selection = prompt.select("\nWhat would you like to change?", %w(Trip_Name Start_Date End_Date Vehicle Itinerary Return))
+        
+        case selection
+        when "Trip_Name"
+        when "Start_Date"
+        when "End_Date"
+        when "Vehicle"
+        when "Itinerary"
+        when "Return"
+            view_trips
+        end
+
+    end
+
     def mark_trip_complete
-        puts "Please enter a trip ID."
-        id = gets.chomp
+        id = enter_id("a trip")
         clear_screen
         @current_traveller.trips.find(id).complete
         puts "Status set to complete. 🚀 Journey Complete! 🚀"
@@ -141,7 +162,7 @@ class CLI
     def create_trip_locations
         clear_screen
         prompt = TTY::Prompt.new
-        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Go_Back ))
+        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Return ))
         
         case selection
         when "Browse_All_Locations"
@@ -154,7 +175,7 @@ class CLI
 
         when "Finish_Creation"
             finish_creation
-        when "Go_Back"
+        when "Return"
             @current_traveller.trips.all.last.destroy
             main_menu
         end
@@ -269,6 +290,12 @@ class CLI
         when "Return"
             view_trips
         end
+    end
+
+    #enter either a or an, then your ID type as string. ex: a trip, an object. set method equal to id
+    def enter_id(a_or_an_id_type)
+        puts "Please enter #{a_or_an_id_type} ID."
+        gets.chomp
     end
 
 end

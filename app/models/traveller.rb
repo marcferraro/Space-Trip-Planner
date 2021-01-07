@@ -15,8 +15,10 @@ class Traveller < ActiveRecord::Base
 
     def display_trips
         count = 1
-        self.trips.each do |trip| 
-            puts "#{count}. #{trip.name}\nID: #{trip.id}\n"
+        
+        self.trips.each do |trip|
+            emoji = ["🚀","🪐","🛰 ","🛸","✨"]
+            puts "#{emoji.sample} #{trip.name}\nID: #{trip.id}\n"
             count += 1
         end
     end
