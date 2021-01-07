@@ -112,7 +112,7 @@ class CLI
         clear_screen
         @current_traveller.trips.find(id).trip_details
 
-        enter_to_return
+        enter_to_return(:view_trips)
     end
 
     def edit_trip
@@ -127,6 +127,8 @@ class CLI
         
         case selection
         when "Trip_Name"
+            # gets.chomp
+            # trip.update(trip_name:)
         when "Start_Date"
         when "End_Date"
         when "Vehicle"
@@ -143,7 +145,7 @@ class CLI
         @current_traveller.trips.find(id).complete
         puts "Status set to complete. 🚀 Journey Complete! 🚀"
 
-        enter_to_return
+        enter_to_return(:view_trips)
     end
 
     def set_trip_date
@@ -248,8 +250,9 @@ class CLI
         puts "Enter the ID of the trip you would like to cancel."
         trip_id = gets.chomp
         # trip = Trip.find_by(id: trip_id)
-        @current_traveller.trips.all.find(trip_id).destroy
-        @current_traveller.reload
+        Traveller.find(@current_traveller.id).trips.last.destroy
+        # @current_traveller.trips.all.find(trip_id).destroy
+        # @current_traveller.reload
         puts "Your trip has been deleted."
         sleep 2
         clear_screen
@@ -282,13 +285,13 @@ class CLI
         exit!
     end
 
-    def enter_to_return
+    def enter_to_return(menu_to_return_to)
         prompt = TTY::Prompt.new
         selection = prompt.select("\nPress Enter to Return.", %w(Return))
 
         case selection
         when "Return"
-            view_trips
+            method(menu_to_return_to).call
         end
     end
 
