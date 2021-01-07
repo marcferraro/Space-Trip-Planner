@@ -56,7 +56,7 @@ end
 trip_ids = Trip.all.map {|trip| trip.id}
 location_ids = Location.all.map {|location| location.id}
 
-800.times do
+600.times do
     trip_id = trip_ids.sample
     location_id = location_ids.sample
 

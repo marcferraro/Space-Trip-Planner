@@ -14,8 +14,10 @@ class Traveller < ActiveRecord::Base
     # end
 
     def display_trips
+        count = 1
         self.trips.each do |trip| 
-            puts "\n#{trip.id} #{trip.name}"
+            puts "#{count}. #{trip.name}\nID: #{trip.id}\n"
+            count += 1
         end
     end
 

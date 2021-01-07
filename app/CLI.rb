@@ -27,16 +27,16 @@ class CLI
         clear_screen
         
         upcoming_trips = @current_traveller.trips.count
-        puts "Welcome #{@current_traveller.name} to Space Trip Planner."
+        puts "Welcome 🪐 #{@current_traveller.name} 🪐 to Space Trip Planner."
 
         if upcoming_trips > 0
             puts "\nYou have #{upcoming_trips} upcoming trips."
         end
 
-        puts "\nWhat would you like to do?"
+        puts "<=>" * 12
             
         prompt = TTY::Prompt.new
-        selection = prompt.select("Main Menu", %w(View_Trips Create_New_Trip Write_Log Quit))
+        selection = prompt.select("\nMain Menu", %w(View_Trips Create_New_Trip Write_Log Quit))
 
         case selection
         when "View_Trips"
@@ -93,17 +93,36 @@ class CLI
 
         case selection
         when "View_Trip_Details"
-            
+            view_trip_details
         when "Edit_Trip"
 
         when "Mark_Trip_Complete"
-
+            mark_trip_complete
         when "Cancel_Trip"
             cancel_trip
 
         when "Main_Menu"
             main_menu
         end
+    end
+
+    def view_trip_details
+        puts "Please enter a trip ID."
+        id = gets.chomp
+        clear_screen
+        @current_traveller.trips.find(id).trip_details
+
+        enter_to_return
+    end
+
+    def mark_trip_complete
+        puts "Please enter a trip ID."
+        id = gets.chomp
+        clear_screen
+        @current_traveller.trips.find(id).complete
+        puts "Status set to complete. 🚀 Journey Complete! 🚀"
+
+        enter_to_return
     end
 
     def set_trip_date
@@ -116,12 +135,11 @@ class CLI
         trip = Trip.create(start_date: start_date, end_date: end_date)
         
         TravellerTrip.create(traveller_id: @current_traveller.id, trip_id: trip.id)
-        binding.pry
         create_trip_locations
     end
 
     def create_trip_locations
-        # binding.pry
+        clear_screen
         prompt = TTY::Prompt.new
         selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Go_Back ))
         
@@ -170,17 +188,19 @@ class CLI
 
     def finish_creation
         clear_screen
-        #add a generative list later
+        puts "Please enter a name for your trip."
+        name = gets.chomp
+        @current_traveller.trips.all.last.update(name: name)
+        #add a generative vehicle list later
         puts "Please enter the vehicle you would like to take."
         vehicle = gets.chomp
         @current_traveller.trips.all.last.update(vehicle: vehicle)
-        # @current_traveller.reload
         clear_screen
         
-        @current_traveller.trips.all.last
-        
+        @current_traveller.trips.all.last.trip_details
+
         prompt = TTY::Prompt.new
-        selection = prompt.select("Here is your trip! Would you like to keep it?", %w(Save Discard Restart))
+        selection = prompt.select("\nHere is your trip! Would you like to keep it?", %w(Save Discard Restart))
 
         case selection
         when "Save"
@@ -206,8 +226,8 @@ class CLI
     def cancel_trip
         puts "Enter the ID of the trip you would like to cancel."
         trip_id = gets.chomp
-        trip = Trip.find_by(id: trip_id)
-        trip.destroy
+        # trip = Trip.find_by(id: trip_id)
+        @current_traveller.trips.all.find(trip_id).destroy
         @current_traveller.reload
         puts "Your trip has been deleted."
         sleep 2
@@ -237,8 +257,18 @@ class CLI
     def self.exit
         system "clear"
         puts "Safe Travels!"
-        sleep 2
+        # sleep 2
         exit!
+    end
+
+    def enter_to_return
+        prompt = TTY::Prompt.new
+        selection = prompt.select("\nPress Enter to Return.", %w(Return))
+
+        case selection
+        when "Return"
+            view_trips
+        end
     end
 
 end
