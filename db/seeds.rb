@@ -14,6 +14,7 @@ end
 
 
 ##create Trips
+trip_name_count = 1
 150.times do
     start_date = Faker::Date.between(from: 3.years.ago, to: 2.years.from_now)
     end_date = Faker::Date.between(from: start_date, to: start_date + 2.years)
@@ -26,16 +27,17 @@ end
     else 
         status = "completed"
     end
-    Trip.create(name: "my_trip the first one", start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
+    Trip.create(name: "Trip #{trip_name_count}", start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
+    trip_name_count += 1
 end
 
 
 ##create Locations
 100.times do
-    category = ["Gas Giant", "Rocky Planet", "Star", "Asteroid", "Moon", "Water Planet", "Galaxy", "Nebula"]
-    name = [Faker::Space.planet, Faker::Space.moon, Faker::Space.galaxy, Faker::Space.nebula]
+    category = ["Gas Giant", "Rocky Planet", "Star", "Asteroid", "Moon", "Water Planet", "Galaxy", "Nebula", "Star Cluster", "Black Hole", "Quasar", "Space Station"]
+    name = [Faker::Space.planet, Faker::Space.moon, Faker::Space.galaxy, Faker::Space.nebula, Faker::Space.star_cluster, Faker::Space.star]
     bool = [true, false]
-    Location.create(name: name.sample, temp: Faker::Number.within(range: 1..10), category: category.sample, rings: bool.sample, fauna: bool.sample, flora: bool.sample, daytime: bool.sample, landable: bool.sample, visited: bool.sample, gravity_level: Faker::Number.decimal(l_digits: 2))
+    Location.create(name: name.sample, temp: Faker::Number.within(range: 0..5800), category: category.sample, rings: bool.sample, fauna: bool.sample, flora: bool.sample, daytime: bool.sample, landable: bool.sample, visited: bool.sample, gravity_level: Faker::Number.within(range: 1..50))
 end
 
 #create traveller_trips
@@ -56,7 +58,7 @@ end
 trip_ids = Trip.all.map {|trip| trip.id}
 location_ids = Location.all.map {|location| location.id}
 
-600.times do
+25000.times do
     trip_id = trip_ids.sample
     location_id = location_ids.sample
 

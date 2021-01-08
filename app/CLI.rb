@@ -170,15 +170,15 @@ class CLI
     def create_trip_locations
         clear_screen
         prompt = TTY::Prompt.new
-        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Tailored_Locations Browse_By_Rating Finish_Creation Discard_and_Return))
+        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Custom_Location_Search Browse_By_Rating Finish_Creation Discard_and_Return))
         
         case selection
         when "Browse_All_Locations"
             
         when "Find_Random_Locations"
             find_random_location
-        when "Tailored_Locations"
-
+        when "Custom_Location_Search"
+            custom_location_search
         when "Browse_By_Rating"
 
         when "Finish_Creation"
@@ -192,6 +192,130 @@ class CLI
         end
         
         create_trip_locations
+    end
+
+    def custom_location_search
+        clear_screen
+        query = {}
+        puts "Let's find the perfect locations for you!"
+        puts "<=>" * 12
+        prompt = TTY::Prompt.new
+        # choices = {gas_giant: query[:category] = "Gas Giant", rocky_planet: query[:category] = "Rocky Planet", star: query[:category] = "Star", asteroid: query[:category] = "Asteroid", moon: query[:category] = "Moon", water_planet: query[:category] = "Water Planet", galaxy: query[:category] = "Galaxy", nebula: query[:category] = "Nebula", star_cluster: query[:category] = "Star Cluster", black_Hole: query[:category] = "Black Hole", quasar: query[:category] = "Quasar", space_station: query[:category] = "Space Station"}
+        
+        # selection = prompt.select("What category of location would you like to visit?\nThere are more options if you scroll. ✨", choices)
+        
+        # #prompt = TTY::Prompt.new
+        # choices = {cold: query[:temp] = 0..2900, hot: query[:temp] = 2901..5800}
+        
+        # selection = prompt.select("What climate would you prefer? 🌨", choices)
+        prompt = TTY::Prompt.new
+        selection = prompt.select("What climate would you prefer? 🌨", %w(Cold Hot))
+        case selection
+        when "Cold"
+            query[:temp] = 0..2900
+        when "Hot"
+            query[:temp] = 2901..5800
+        end
+
+        # prompt = TTY::Prompt.new
+        # choices = {earth_like: query[:gravity_level] = 1..25, sun_like: query[:gravity_level] = 26..50}
+        
+        # selection = prompt.select("Gravity Level? 🛰", choices)
+        
+        prompt = TTY::Prompt.new
+        selection = prompt.select("Gravity Level? 🛰", %w(Earthlike Sunlike))
+
+        case selection
+        when "Earthlike"
+            query[:gravity_level] = 1..25
+        when "Sunlike"
+            query[:gravity_level] = 26..50
+        end
+
+
+        # prompt = TTY::Prompt.new
+        # choices = {no: query[:flora] = false, yes: query[:flora] = true}
+        
+        # selection = prompt.select("Plant Life? 🌱", choices)
+
+        # prompt = TTY::Prompt.new
+        # choices = {no: query[:fauna] = false, yes: query[:fauna] = true}
+        
+        # selection = prompt.select("Alien Life? 👽", choices)
+
+        prompt = TTY::Prompt.new
+        selection = prompt.select("Alien Life? 👽", %w(Yes No))
+
+        case selection
+        when "Yes"
+            query[:fauna] = true
+        when "No"
+            query[:fauna] = false
+        end
+
+        # prompt = TTY::Prompt.new
+        # choices = {no: query[:rings] = false, yes: query[:rings] = true}
+        
+        # selection = prompt.select("Space Rings? 🪐", choices)
+
+        # prompt = TTY::Prompt.new
+        # choices = {dark: query[:daytime] = false, light: query[:daytime] = true}
+        
+        # selection = prompt.select("How bright? 😎", choices)
+
+        # prompt = TTY::Prompt.new
+        # choices = {no: query[:landable] = false, yes: query[:landable] = true}
+        
+        # selection = prompt.select("Landable? 🚀", choices)
+        
+        prompt = TTY::Prompt.new
+        selection = prompt.select("Landable? 🚀", %w(Yes No))
+
+        case selection
+        when "Yes"
+            query[:landable] = true
+        when "No"
+            query[:landable] = false
+        end
+
+        # prompt = TTY::Prompt.new
+        # choices = {no: query[:visited] = false, yes: query[:visited] = true}
+        
+        # selection = prompt.select("Visited? 🛸", choices)
+        
+        prompt = TTY::Prompt.new
+        selection = prompt.select("Visited? 🛸", %w(Yes No))
+
+        case selection
+        when "Yes"
+            query[:visited] = true
+        when "No"
+            query[:visited] = false
+        end
+
+        binding.pry
+        clear_screen
+
+        puts "Searching database..."
+        sleep 2
+        if Location.where(query).count > 0
+            Location.where(query).each {|location| location.location_details}
+            puts "\nResults Above! You may need to scroll up. Enter an ID to add to itinerary."
+
+            id = enter_id("a location")
+
+            trip_id = @current_traveller.trips.last.id
+            TripLocation.create(trip_id: trip_id, location_id: id)
+            puts "Location added to itinerary."
+            sleep 2
+            create_trip_locations
+        else
+            puts "No results found!"
+            sleep 2
+            create_trip_locations
+        end
+        binding.pry
+        # Trip.where(query)
     end
 
     def find_random_location
@@ -320,8 +444,6 @@ class CLI
         view_trips
     end
 
-
-
     def get_age
         puts "What is your age?"
         age = gets.chomp
@@ -341,9 +463,9 @@ class CLI
 
     def self.exit
         system "clear"
-        puts "Safe Travels!"
+        puts "Safe Travels! 🦋💫🛰"
         # sleep 2
-        clear_screen
+        system "clear"
         exit!
     end
 
