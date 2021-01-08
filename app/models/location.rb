@@ -3,7 +3,6 @@ class Location < ActiveRecord::Base
     has_many :trips, through: :trip_locations
 
     def location_details
-      puts ""
       puts "\n<=> #{self.name} <=>"
       puts "ID: #{self.id}"
       puts "Category: #{self.category} ✨"

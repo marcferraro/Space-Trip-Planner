@@ -1,7 +1,16 @@
 class CLI
 
+    def header
+        pastel = Pastel.new
+        File.readlines("./app/models/header.txt") do |line|
+            puts line
+        end
+    end
+
     def run
         clear_screen
+        # header
+        # sleep 2
         puts "Welcome to Space Trip Planner"
         puts "<=>" * 10
         login
@@ -322,8 +331,8 @@ class CLI
         clear_screen
         random_locations = []
         3.times {random_locations << Location.all.sample} 
-        
-        random_locations.each {|location| puts "#{location.id}. #{location.name}"}
+        binding.pry
+        random_locations.each {|location| location.location_details}
 
         puts "Enter the index of the location of the trip you would like to add to your itinerary."
 
@@ -334,10 +343,12 @@ class CLI
             TripLocation.create(trip_id: trip_id, location_id: location_id)
             puts "Location added to itinerary."
             sleep 2
+            random_locations = []
             create_trip_locations
         else
             puts "Please enter an integer."
             sleep 2
+            random_locations = []
             find_random_location
         end
     end
