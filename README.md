@@ -26,7 +26,7 @@ Create accounts, plan trips and write journals.
 2. To add loctions to your trip, select either Find_Random_Locations or Custom_Location_Search.
 3. In Find_Random_Locations you will given three random locations to choose from. Enter the id of the location you would like to add to your itinerary.
 
-![Add_Location_menu](Screen%20Shot%202021-01-08%20at%2011.07.20%20AM.jpeg)
+![Add_Location_menu](images/Screen%20Shot%202021-01-08%20at%2011.07.20%20AM.jpeg)
 
 4. In Custom_Location_Search choose the options that best describe the location you would like to travel to. Then enter the id of location to add to your itinerary.
 5. When finished, select Finish_Creation.
