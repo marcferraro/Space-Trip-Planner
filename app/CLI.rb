@@ -477,7 +477,7 @@ class CLI
     def self.exit
         system "clear"
         puts "Safe Travels! 🦋💫🛰"
-        # sleep 2
+        sleep 2
         system "clear"
         exit!
     end
