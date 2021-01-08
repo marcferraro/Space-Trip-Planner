@@ -37,7 +37,7 @@ class CLI
         clear_screen
         
         upcoming_trips = @current_traveller.trips.count
-        puts "Welcome 🪐 " + @pastel.yellow("#{@current_traveller.name}") + " 🪐 to Space Trip Planner."
+        puts "Welcome 🪐 " + @pastel.bright_yellow("#{@current_traveller.name}") + " 🪐 to Space Trip Planner."
 
         if upcoming_trips > 0
             puts "\nYou have " + @pastel.green("#{upcoming_trips}") + " upcoming trips."
@@ -177,19 +177,20 @@ class CLI
         create_trip_locations
     end
 
+    # Browse_All_Locations Browse_By_Rating
     def create_trip_locations
         clear_screen
         prompt = TTY::Prompt.new
-        selection = prompt.select("Select an option to add one or more locations.", %w(Browse_All_Locations Find_Random_Locations Custom_Location_Search Browse_By_Rating Finish_Creation Discard_and_Return))
+        selection = prompt.select("Select an option to add one or more locations.", %w(Find_Random_Locations Custom_Location_Search Finish_Creation Discard_and_Return))
         
         case selection
-        when "Browse_All_Locations"
+        # when "Browse_All_Locations"
             
         when "Find_Random_Locations"
             find_random_location
         when "Custom_Location_Search"
             custom_location_search
-        when "Browse_By_Rating"
+        # when "Browse_By_Rating"
 
         when "Finish_Creation"
             finish_creation

@@ -1,10 +1,8 @@
-
-How to use your application (commands that can be run).
-What your program looks like (screenshots).
-etc.
-
-
 ### Interstellar Traveller
+
+## Introduction
+
+
 ## SETUP
 
 1. Head to this link https://github.com/marcferraro/Space-Trip-Planner and clone to your text editor project folder.
@@ -27,6 +25,7 @@ Create accounts, plan trips and write journals.
 1. To create a new trip, select Create_New_Trip and enter start date and end date.
 2. To add loctions to your trip, select either Find_Random_Locations or Custom_Location_Search.
 3. In Find_Random_Locations you will given three random locations to choose from. Enter the id of the location you would like to add to your itinerary.
+![alt text](images/Screen Shot 2021-01-08 at 11.07.20 AM.jpeg)
 4. In Custom_Location_Search choose the options that best describe the location you would like to travel to. Then enter the id of location to add to your itinerary.
 5. When finished, select Finish_Creation.
 6. Enter the name of your trip and vehicle you will be taking.
@@ -39,11 +38,4 @@ Create accounts, plan trips and write journals.
 2. Enter a trip id for the log you would like to enter.
 3. Write your new entry, then hit enter when finished.
 4. Select New_Entry to create another or Main_Menu to head back.
-
-
-
-
-
-
-
 
