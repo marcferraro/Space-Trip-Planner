@@ -12,7 +12,7 @@ class CLI
         @pastel = Pastel.new
         # header
         # sleep 2
-        puts @pastel.yellow.bold("Welcome to Space Trip Planner 🚀")
+        puts @pastel.yellow.bold("Welcome to Interstellar Traveller 🚀")
         puts @pastel.blue.bold("<=>" * 10)
         login
     end
