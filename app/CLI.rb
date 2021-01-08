@@ -9,16 +9,17 @@ class CLI
 
     def run
         clear_screen
+        @pastel = Pastel.new
         # header
         # sleep 2
-        puts "Welcome to Space Trip Planner"
-        puts "<=>" * 10
+        puts @pastel.yellow.bold("Welcome to Space Trip Planner 🚀")
+        puts @pastel.blue.bold("<=>" * 10)
         login
     end
 
     def login
         prompt = TTY::Prompt.new
-        selection = prompt.select("Login", %w(Existing_Account Create_Traveller_Account Quit))
+        selection = prompt.select(@pastel.bright_white.bold("Login"), %w(Existing_Account Create_Traveller_Account Quit))
 
         clear_screen
 
@@ -36,13 +37,13 @@ class CLI
         clear_screen
         
         upcoming_trips = @current_traveller.trips.count
-        puts "Welcome 🪐 #{@current_traveller.name} 🪐 to Space Trip Planner."
+        puts "Welcome 🪐 " + @pastel.yellow("#{@current_traveller.name}") + " 🪐 to Space Trip Planner."
 
         if upcoming_trips > 0
-            puts "\nYou have #{upcoming_trips} upcoming trips."
+            puts "\nYou have " + @pastel.green("#{upcoming_trips}") + " upcoming trips."
         end
 
-        puts "<=>" * 12
+        puts @pastel.blue.bold("<=>" * 12)
             
         prompt = TTY::Prompt.new
         selection = prompt.select("\nMain Menu", %w(View_Trips Create_New_Trip Write_Travellers_Log Quit))
@@ -302,7 +303,7 @@ class CLI
             query[:visited] = false
         end
 
-        binding.pry
+        
         clear_screen
 
         puts "Searching database..."
@@ -323,7 +324,7 @@ class CLI
             sleep 2
             create_trip_locations
         end
-        binding.pry
+        
         # Trip.where(query)
     end
 
@@ -331,7 +332,7 @@ class CLI
         clear_screen
         random_locations = []
         3.times {random_locations << Location.all.sample} 
-        binding.pry
+      
         random_locations.each {|location| location.location_details}
 
         puts "Enter the index of the location of the trip you would like to add to your itinerary."
