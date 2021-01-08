@@ -11,8 +11,6 @@ Traveller.destroy_all
     Traveller.create(name: Faker::Name.name, age: Faker::Number.within(range: 20..104))  
 end
 
-
-
 ##create Trips
 trip_name_count = 1
 150.times do
@@ -30,7 +28,6 @@ trip_name_count = 1
     Trip.create(name: "Trip #{trip_name_count}", start_date: start_date, end_date: end_date, vehicle: Faker::Space.launch_vehicle, status: status)
     trip_name_count += 1
 end
-
 
 ##create Locations
 100.times do
