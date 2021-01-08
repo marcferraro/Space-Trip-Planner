@@ -60,4 +60,4 @@ Create accounts, plan trips and write journals.
 
 Marc Ferraro and Rachelle Spicer
 
-All the data is imaginary. Please have fun exploring our app.
+All the data included is imaginary. This project is licensed under the terms of the Learn.co Educational Content License: http://learn.co/content-license
