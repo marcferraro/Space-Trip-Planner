@@ -2,16 +2,16 @@ class CLI
 
     def header
         pastel = Pastel.new
-        File.readlines("./app/models/header.txt") do |line|
-            puts line
-        end
+        read_file = File.read("./app/models/header.txt")
+            puts pastel.blue(read_file)
     end
 
     def run
         clear_screen
         @pastel = Pastel.new
-        # header
-        # sleep 2
+        header
+        sleep 3
+        
         puts @pastel.yellow.bold("Welcome to Interstellar Traveller 🚀")
         puts @pastel.blue.bold("<=>" * 10)
         login
